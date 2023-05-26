@@ -67,16 +67,26 @@ class UserApi extends BaseApi {
   }
 
   /// get User method
-  Future<UserBoundary> getUser(String userEmail) async {
+  Future<bool> getUser(String userEmail) async {
     final client = RetryClient(http.Client());
     final response = await http.get(Uri.parse(
         'http://$host:$portNumber/superapp/users/login/2023b.LiorAriely/$userEmail'));
-    try {
-      Map<String, dynamic> userMap = jsonDecode(response.body);
-      return UserBoundary.fromJson(userMap);
-    } finally {
-      client.close();
+    if (response.statusCode != 200) {
+      debugPrint('LOG --- Failed to login user');
+      return false;
     }
+
+    UserBoundary userBoundary =
+        UserBoundary.fromJson(jsonDecode(response.body));
+
+    // save user details to singleton
+    user.email = userBoundary.userId.email;
+    debugPrint('LOG --- user.email: ${user.email}');
+    user.role = userBoundary.role;
+    user.username = userBoundary.username;
+    user.avatar = userBoundary.avatar;
+
+    return true;
   }
 
   Future updateRole(String newRole) async {

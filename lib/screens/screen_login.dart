@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marketplace/api/user_api.dart';
 
 class ScreenLogin extends StatefulWidget {
   const ScreenLogin({Key? key}) : super(key: key);
@@ -8,23 +9,115 @@ class ScreenLogin extends StatefulWidget {
 }
 
 class _ScreenLoginState extends State<ScreenLogin> {
+  final _textFieldEmailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Login'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/register');
-              },
-              child: const Text('Register'),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // title - Market Place
+              const Text(
+                'Market Place',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 40),
+              const Text(
+                'Login',
+                style: TextStyle(fontSize: 30),
+              ),
+              const SizedBox(height: 20),
+              // test field for email
+              Form(
+                onChanged: () {
+                  // validate the form
+                  _formKey.currentState!.validate();
+                },
+                key: _formKey,
+                child: SizedBox(
+                  width: 300,
+                  child: TextFormField(
+                    controller: _textFieldEmailController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                    ),
+                    validator: (value) {
+                      return _isValidEmail(value!)
+                          ? null
+                          : 'Please enter a valid email';
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              // login button
+              ElevatedButton(
+                onPressed: _loginButton,
+                child: const Text('Login'),
+              ),
+              const SizedBox(height: 40),
+              TextButton(
+                onPressed: _screenRegister,
+                child: const Text(
+                  'Register',
+                  // underline the text
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _screenRegister() {
+    // pop the current screen
+    Navigator.pushNamed(context, '/register');
+  }
+
+  Future<void> _loginButton() async {
+    // validate the form
+    if (_formKey.currentState!.validate() == false) {
+      return;
+    }
+    if (await UserApi().getUser(_textFieldEmailController.text) == false) {
+      // user does not exist
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('User does not exist'),
+        ),
+      );
+      _textFieldEmailController.clear();
+      return;
+    }
+    _screenExploreProducts();
+  }
+
+  void _screenExploreProducts() {
+    // pop all the screens
+    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.pushNamed(context, '/explore_products');
+  }
+
+  bool _isValidEmail(String email) {
+    if (email.isEmpty) {
+      return false;
+    }
+    // validate the email with a regex
+    if (RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+            .hasMatch(email) ==
+        false) {
+      return false;
+    }
+
+    return true;
   }
 }

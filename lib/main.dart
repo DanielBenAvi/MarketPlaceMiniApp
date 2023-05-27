@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marketplace/screens/screen_add_product.dart';
 import 'package:marketplace/screens/screen_explore_products.dart';
 import 'package:marketplace/screens/screen_login.dart';
 import 'package:marketplace/screens/screen_my_products.dart';
@@ -25,6 +26,7 @@ void main() async {
         '/explore_products': (context) => const ScreenExploreProducts(),
         '/my_products': (context) => const ScreenMyProducts(),
         '/my_profile': (context) => const ScreenProfile(),
+        '/add_product': (context) => const ScreenAddProduct(),
       },
     ),
   );

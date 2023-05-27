@@ -20,7 +20,7 @@ class _ScreenMyProductsState extends State<ScreenMyProducts> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.pushNamed(context, '/add_product');
+          Navigator.pushNamed(context, '/add_product');
         },
         child: const Icon(Icons.add),
       ),
@@ -59,5 +59,4 @@ class _ScreenMyProductsState extends State<ScreenMyProducts> {
       ),
     );
   }
-
 }

@@ -27,7 +27,6 @@ class UserApi extends BaseApi {
       throw Exception('Failed to create user');
     }
 
-    Map<String, dynamic> responseBody = jsonDecode(response.body);
     return true;
   }
 

@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -145,6 +146,4 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
       this.currencyCode = currencyCode;
     });
   }
-
-
 }

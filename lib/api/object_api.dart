@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
 import 'package:http/retry.dart';
 import 'package:marketplace/api/user_api.dart';
 
@@ -26,7 +28,6 @@ class ObjectApi extends BaseApi {
     if (response.statusCode == 200) {
       ObjectBoundary objectBoundary =
           ObjectBoundary.fromJson(jsonDecode(response.body));
-      SingletonUser singletonUser = SingletonUser.instance;
       debugPrint('objectBoundary: ${objectBoundary.toJson()}');
       return objectBoundary;
     } else {

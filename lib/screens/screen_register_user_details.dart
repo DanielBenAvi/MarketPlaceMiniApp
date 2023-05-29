@@ -82,6 +82,15 @@ class _ScreenRegisterUserDetailsState extends State<ScreenRegisterUserDetails> {
   }
 
   Future _continue() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    await UserApi().postUserDetails(
+        _textFieldControllerName.text,
+        _textFieldControllerPhoneNumber.text,
+        _selectedPreferences.map((e) => e.name).toList());
+
     _login();
   }
 

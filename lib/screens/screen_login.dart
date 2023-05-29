@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace/api/user_api.dart';
+import 'package:marketplace/other/validator.dart';
 
 class ScreenLogin extends StatefulWidget {
   const ScreenLogin({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                       labelText: 'Email',
                     ),
                     validator: (value) {
-                      return _isValidEmail(value!)
+                      return Validator().isValidEmail(value!)
                           ? null
                           : 'Please enter a valid email';
                     },
@@ -105,19 +106,5 @@ class _ScreenLoginState extends State<ScreenLogin> {
     // pop all the screens
     Navigator.popUntil(context, (route) => route.isFirst);
     Navigator.pushNamed(context, '/explore_products');
-  }
-
-  bool _isValidEmail(String email) {
-    if (email.isEmpty) {
-      return false;
-    }
-    // validate the email with a regex
-    if (RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-            .hasMatch(email) ==
-        false) {
-      return false;
-    }
-
-    return true;
   }
 }

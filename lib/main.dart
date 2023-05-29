@@ -5,6 +5,7 @@ import 'package:marketplace/screens/screen_login.dart';
 import 'package:marketplace/screens/screen_my_products.dart';
 import 'package:marketplace/screens/screen_profile.dart';
 import 'package:marketplace/screens/screen_register.dart';
+import 'package:marketplace/screens/screen_register_user_details.dart';
 
 void main() async {
   runApp(
@@ -23,6 +24,8 @@ void main() async {
       routes: {
         '/login': (context) => const ScreenLogin(),
         '/register': (context) => const ScreenRegister(),
+        '/register_user_details': (context) =>
+            const ScreenRegisterUserDetails(),
         '/explore_products': (context) => const ScreenExploreProducts(),
         '/my_products': (context) => const ScreenMyProducts(),
         '/my_profile': (context) => const ScreenProfile(),

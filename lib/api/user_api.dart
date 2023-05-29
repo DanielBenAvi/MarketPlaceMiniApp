@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
 import 'package:http/retry.dart';
 
 import '../boundaries/object_boundary.dart';
@@ -11,7 +13,7 @@ import 'base_api.dart';
 /// UserApi class
 class UserApi extends BaseApi {
   /// create User method
-  Future<UserBoundary?> postUser(Map<String, dynamic> newUserBoundary) async {
+  Future<bool?> postUser(Map<String, dynamic> newUserBoundary) async {
     // create user
     http.Response response = await http.post(
       Uri.parse('http://$host:$portNumber/superapp/users'),
@@ -22,12 +24,11 @@ class UserApi extends BaseApi {
     );
 
     if (response.statusCode != 200) {
-      debugPrint('LOG --- Failed to load events');
-      return null;
+      throw Exception('Failed to create user');
     }
 
     Map<String, dynamic> responseBody = jsonDecode(response.body);
-    return UserBoundary.fromJson(responseBody);
+    return true;
   }
 
   Future<ObjectBoundary?> postUserDetails(
@@ -35,7 +36,7 @@ class UserApi extends BaseApi {
     Map<String, dynamic> userDetails = {
       "objectId": {},
       "type": "USER_DETAILS",
-      "alias": "userDetails",
+      "alias": "USER_DETAILS",
       "active": true,
       "location": {"lat": 10.200, "lng": 10.200},
       "createdBy": {
@@ -44,7 +45,7 @@ class UserApi extends BaseApi {
       "objectDetails": {
         "name": name,
         "phoneNum": phoneNum,
-        "preferences": preferences
+        "preferences": preferences.toList()
       }
     };
 
@@ -53,13 +54,15 @@ class UserApi extends BaseApi {
           '?userSuperapp=$superApp&userEmail=${user.email}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
       },
       body: jsonEncode(userDetails),
     );
 
     if (response.statusCode != 200) {
       debugPrint('LOG --- Failed to create user details');
-      return null;
+      throw Exception('Failed to create user details');
+      // todo: delete user
     }
 
     Map<String, dynamic> responseBody = jsonDecode(response.body);
@@ -67,26 +70,16 @@ class UserApi extends BaseApi {
   }
 
   /// get User method
-  Future<bool> getUser(String userEmail) async {
+  Future<UserBoundary> getUser(String userEmail) async {
     final client = RetryClient(http.Client());
     final response = await http.get(Uri.parse(
         'http://$host:$portNumber/superapp/users/login/2023b.LiorAriely/$userEmail'));
-    if (response.statusCode != 200) {
-      debugPrint('LOG --- Failed to login user');
-      return false;
+    try {
+      Map<String, dynamic> userMap = jsonDecode(response.body);
+      return UserBoundary.fromJson(userMap);
+    } finally {
+      client.close();
     }
-
-    UserBoundary userBoundary =
-        UserBoundary.fromJson(jsonDecode(response.body));
-
-    // save user details to singleton
-    user.email = userBoundary.userId.email;
-    debugPrint('LOG --- user.email: ${user.email}');
-    user.role = userBoundary.role;
-    user.username = userBoundary.username;
-    user.avatar = userBoundary.avatar;
-
-    return true;
   }
 
   Future updateRole(String newRole) async {
@@ -94,16 +87,20 @@ class UserApi extends BaseApi {
       'role': newRole,
     };
 
-    final response = http.put(
-      Uri.parse(
-          'http://$host:$portNumber/superapp/users/2023b.LiorAriely/${user.email}'),
-      headers: <String, String>{
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: jsonEncode(updateUserBoundary),
-    );
-
-    debugPrint('LOG --- response: ${response.toString()}');
+    try {
+      http.put(
+        Uri.parse(
+            'http://$host:$portNumber/superapp/users/2023b.LiorAriely/${user.email}'),
+        headers: <String, String>{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode(updateUserBoundary),
+      );
+      debugPrint('LOG --- user role updated to $newRole');
+    } catch (e) {
+      debugPrint('LOG --- Failed to update user role');
+      throw Exception('Failed to update user role');
+    }
   }
 }

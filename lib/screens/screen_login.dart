@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marketplace/api/object_api.dart';
 import 'package:marketplace/api/user_api.dart';
 import 'package:marketplace/other/validator.dart';
 
@@ -89,17 +90,20 @@ class _ScreenLoginState extends State<ScreenLogin> {
     if (_formKey.currentState!.validate() == false) {
       return;
     }
-    if (await UserApi().getUser(_textFieldEmailController.text) == false) {
-      // user does not exist
-      // ignore: use_build_context_synchronously
+
+    try {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('User does not exist'),
-        ),
+        const SnackBar(content: Text('Logging in...')),
       );
+      await UserApi().getUser(_textFieldEmailController.text);
+    } catch (e) {
+      throw Exception('User does not exist');
+    } finally {
       _textFieldEmailController.clear();
-      return;
     }
+
+    await ObjectApi().getDemoObject();
+
     _screenExploreProducts();
   }
 

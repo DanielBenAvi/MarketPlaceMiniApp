@@ -32,6 +32,9 @@ class _ScreenRegisterUserDetailsState extends State<ScreenRegisterUserDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Register User Details'),
+      ),
       body: Center(
         child: SizedBox(
           width: 300,

@@ -4,8 +4,9 @@ import 'package:marketplace/boundaries/user_boundary.dart';
 import 'package:marketplace/other/validator.dart';
 import 'package:marketplace/singleton_user.dart';
 import 'dart:typed_data';
-import 'package:currency_picker/currency_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:file_picker/file_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:firebase_storage/firebase_storage.dart';
 
 class ScreenRegister extends StatefulWidget {
@@ -118,7 +119,10 @@ class _ScreenRegisterState extends State<ScreenRegister> {
   }
 
   Future _filePiker() async {
-    final result = await FilePicker.platform.pickFiles();
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['png', 'jpeg'],
+    );
     if (result == null) return;
 
     setState(() {

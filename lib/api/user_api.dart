@@ -39,7 +39,7 @@ class UserApi extends BaseApi {
       "active": true,
       "location": {"lat": 10.200, "lng": 10.200},
       "createdBy": {
-        "userId": {"superapp": superApp, "email": user.email}
+        "userId": {"superapp": superApp, "email": singletonUser.email}
       },
       "objectDetails": {
         "name": name,
@@ -48,20 +48,24 @@ class UserApi extends BaseApi {
       }
     };
 
-    http.Response response = await http.post(
-      Uri.parse('http://$host:$portNumber/superapp/objects'
-          '?userSuperapp=$superApp&userEmail=${user.email}'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-      },
-      body: jsonEncode(userDetails),
-    );
+    http.Response response;
+    try {
+      response = await http.post(
+        Uri.parse('http://$host:$portNumber/superapp/objects'
+            '?userSuperapp=$superApp&userEmail=${singletonUser.email}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode(userDetails),
+      );
+    } catch (e) {
+      debugPrint('[LOG] --- Failed to create user details');
+      throw Exception('Failed to create user details');
+    }
 
     if (response.statusCode != 200) {
-      debugPrint('LOG --- Failed to create user details');
-      throw Exception('Failed to create user details');
-      // todo: delete user
+      throw Exception('[LOG] - Failed to create user details');
     }
 
     Map<String, dynamic> responseBody = jsonDecode(response.body);
@@ -75,7 +79,12 @@ class UserApi extends BaseApi {
         'http://$host:$portNumber/superapp/users/login/2023b.LiorAriely/$userEmail'));
     try {
       Map<String, dynamic> userMap = jsonDecode(response.body);
-      return UserBoundary.fromJson(userMap);
+      UserBoundary userBoundary = UserBoundary.fromJson(userMap);
+      singletonUser.email = userBoundary.userId.email;
+      singletonUser.role = userBoundary.role;
+      singletonUser.username = userBoundary.username;
+      singletonUser.avatar = userBoundary.avatar;
+      return userBoundary;
     } finally {
       client.close();
     }
@@ -89,7 +98,7 @@ class UserApi extends BaseApi {
     try {
       http.put(
         Uri.parse(
-            'http://$host:$portNumber/superapp/users/2023b.LiorAriely/${user.email}'),
+            'http://$host:$portNumber/superapp/users/2023b.LiorAriely/${singletonUser.email}'),
         headers: <String, String>{
           'Accept': 'application/json',
           'Content-Type': 'application/json'

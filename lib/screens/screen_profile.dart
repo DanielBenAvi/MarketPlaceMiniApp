@@ -1,9 +1,12 @@
+// ignore_for_file: depend_on_referenced_packages, unused_import
+
 import 'package:flutter/material.dart';
 import 'package:marketplace/api/command_api.dart';
 import 'package:marketplace/api/user_api.dart';
 import 'package:marketplace/boundaries/object_boundary.dart';
 import 'package:marketplace/singleton_user.dart';
 import 'package:marketplace/widgets/avatar_item.dart';
+import 'package:image_network/image_network.dart';
 
 class ScreenProfile extends StatefulWidget {
   const ScreenProfile({Key? key}) : super(key: key);
@@ -20,6 +23,7 @@ class _ScreenProfileState extends State<ScreenProfile> {
   void initState() {
     debugPrint('\n -- initState -- ProfileScreen');
     super.initState();
+    debugPrint('singletonUser: ${singletonUser.toString()}');
     updateRole();
     _getUserDetails();
   }
@@ -31,13 +35,20 @@ class _ScreenProfileState extends State<ScreenProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
       body: Center(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              AvatarItem(
-                photoUrl: singletonUser.avatar?.toString() ??
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw4dcOs0ebrWK3g4phCh7cfF-aOM3rhxnsCQ&usqp=CAU',
+              ImageNetwork(
+                image: singletonUser.avatar.toString(),
+                height: 300,
+                width: 300,
               ),
               const SizedBox(height: 20),
               Text('Email: ${singletonUser.email}',

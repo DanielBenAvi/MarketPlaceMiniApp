@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:marketplace/other/item_object.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';

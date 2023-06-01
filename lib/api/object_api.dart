@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 // ignore: depend_on_referenced_packages
 import 'package:http/retry.dart';
 import 'package:marketplace/api/user_api.dart';
+import 'package:marketplace/singleton_demo_object.dart';
 
 import '../boundaries/object_boundary.dart';
 import '../singleton_user.dart';
@@ -63,6 +64,33 @@ class ObjectApi extends BaseApi {
       throw Exception(response.body);
     } else {
       debugPrint('LOG --- Success to create event');
+    }
+  }
+
+  Future getDemoObject() async {
+    final client = RetryClient(http.Client());
+    try {
+      final response = await client.get(Uri.parse(
+          'http://$host:$portNumber/superapp/objects/search/byAlias/OBJECT_FOR_COMMAND_WITHOUT_TARGET_OBJECT?userSuperapp=$superApp&userEmail=${SingletonUser.instance.email}'));
+      if (response.statusCode != 200) {
+        throw Exception(
+            '[EXCEPTION] Failed to get demo object, status code: ${response.statusCode}');
+      }
+
+      if (jsonDecode(response.body).isEmpty) {
+        debugPrint('LOG --- Demo object not found, creating one');
+        await UserApi().updateRole(
+            'SUPERAPP_USER'); // update role to SUPERAPP_USER only SuperApp_user can create objects
+      }
+
+      Map<String, dynamic> object = jsonDecode(response.body).first;
+      SingletonDemoObject singletonDemoObject = SingletonDemoObject.instance;
+      singletonDemoObject.uuid = object['objectId']['internalObjectId'];
+      debugPrint('[LOG] ${SingletonDemoObject.instance}');
+    } catch (e) {
+      throw Exception('Failed to get demo object: $e');
+    } finally {
+      client.close();
     }
   }
 }

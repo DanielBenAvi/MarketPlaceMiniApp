@@ -5,7 +5,7 @@ import '../singleton_user.dart';
 class BaseApi {
   final host = "localhost";
   final portNumber = "8084";
-  SingletonUser user = SingletonUser.instance;
+  SingletonUser singletonUser = SingletonUser.instance;
   final String superApp = "2023b.LiorAriely";
   SingletonDemoObject demoObject = SingletonDemoObject.instance;
 }

@@ -1,5 +1,7 @@
 // ignore: depend_on_referenced_packages
 
+// ignore_for_file: depend_on_referenced_packages, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
 import 'package:currency_picker/currency_picker.dart';

@@ -1,6 +1,10 @@
 // ignore: depend_on_referenced_packages
+import 'dart:typed_data';
+
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ScreenAddProduct extends StatefulWidget {
   const ScreenAddProduct({Key? key}) : super(key: key);
@@ -12,6 +16,9 @@ class ScreenAddProduct extends StatefulWidget {
 class _ScreenAddProductState extends State<ScreenAddProduct> {
   final _formKey = GlobalKey<FormState>();
   String currencyCode = 'ISL';
+  PlatformFile? pickedFile;
+  UploadTask? uploadTask;
+  String? downloadURL;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +93,8 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
                 buildCurrencyPicker(context),
                 const SizedBox(height: 20),
                 // todo: add image picker
-
+                OutlinedButton(
+                    onPressed: _filePiker, child: const Text('Add Image')),
                 // todo: add preference picker
 
                 const SizedBox(height: 20),
@@ -145,5 +153,25 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
     setState(() {
       this.currencyCode = currencyCode;
     });
+  }
+
+  Future _filePiker() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+
+    setState(() {
+      pickedFile = result.files.first;
+    });
+    Uint8List? uploadFile = result.files.single.bytes;
+    final path = 'files/${pickedFile!.name}';
+
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putData(uploadFile!);
+    final snapshot = await uploadTask!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    setState(() {
+      downloadURL = urlDownload;
+    });
+    debugPrint('Download-Link: $urlDownload');
   }
 }

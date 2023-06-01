@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 import 'package:marketplace/screens/screen_add_product.dart';
 import 'package:marketplace/screens/screen_explore_products.dart';
 import 'package:marketplace/screens/screen_login.dart';
@@ -8,6 +11,11 @@ import 'package:marketplace/screens/screen_register.dart';
 import 'package:marketplace/screens/screen_register_user_details.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
     MaterialApp(
       title: 'Social Hive',

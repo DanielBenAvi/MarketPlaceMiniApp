@@ -1,8 +1,8 @@
 // ignore: depend_on_referenced_packages
-import 'dart:typed_data';
 
-import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
+import 'dart:typed_data';
+import 'package:currency_picker/currency_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 

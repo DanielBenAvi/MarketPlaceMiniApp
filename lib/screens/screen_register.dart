@@ -3,6 +3,10 @@ import 'package:marketplace/api/user_api.dart';
 import 'package:marketplace/boundaries/user_boundary.dart';
 import 'package:marketplace/other/validator.dart';
 import 'package:marketplace/singleton_user.dart';
+import 'dart:typed_data';
+import 'package:currency_picker/currency_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ScreenRegister extends StatefulWidget {
   const ScreenRegister({Key? key}) : super(key: key);
@@ -15,6 +19,10 @@ class _ScreenRegisterState extends State<ScreenRegister> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
+
+  PlatformFile? pickedFile;
+  UploadTask? uploadTask;
+  String? downloadURL;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +66,9 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                   ),
                   const SizedBox(height: 20),
                   OutlinedButton(
+                      onPressed: _filePiker, child: const Text('Add Image')),
+                  const SizedBox(height: 20),
+                  OutlinedButton(
                     onPressed: _continue,
                     child: const Text('Continue'),
                   ),
@@ -94,7 +105,7 @@ class _ScreenRegisterState extends State<ScreenRegister> {
     user.email = _emailController.text;
     user.username = _usernameController.text;
     user.role = 'SUPERAPP_USER';
-    user.avatar = 'demo_avatar';
+    user.avatar = downloadURL;
     // - update singleton user
 
     if (_formKey.currentState!.validate()) {
@@ -104,5 +115,25 @@ class _ScreenRegisterState extends State<ScreenRegister> {
 
   void _moveToNextScreen() {
     Navigator.pushNamed(context, '/register_user_details');
+  }
+
+  Future _filePiker() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+
+    setState(() {
+      pickedFile = result.files.first;
+    });
+    Uint8List? uploadFile = result.files.single.bytes;
+    final path = 'files/${pickedFile!.name}';
+
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putData(uploadFile!);
+    final snapshot = await uploadTask!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    setState(() {
+      downloadURL = urlDownload;
+    });
+    debugPrint('Download-Link: $urlDownload');
   }
 }

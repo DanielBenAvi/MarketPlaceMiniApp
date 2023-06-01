@@ -91,6 +91,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
     }
     if (await UserApi().getUser(_textFieldEmailController.text) == false) {
       // user does not exist
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('User does not exist'),

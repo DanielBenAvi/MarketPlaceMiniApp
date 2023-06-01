@@ -1,4 +1,5 @@
 import 'dart:convert';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:marketplace/boundaries/object_boundary.dart';
@@ -17,7 +18,7 @@ class CommandApi extends BaseApi {
         }
       },
       "invokedBy": {
-        "userId": {"superapp": "2023b.LiorAriely", "email": user.email}
+        "userId": {"superapp": "2023b.LiorAriely", "email": singletonUser.email}
       },
     };
 
@@ -31,11 +32,13 @@ class CommandApi extends BaseApi {
     );
 
     if (response.statusCode != 200) {
-      debugPrint('LOG --- Failed to load events');
-      return null;
+      throw Exception('Failed to get user details');
     }
 
     Map<String, dynamic> responseBody = jsonDecode(response.body);
+    if (responseBody.values.first == null) {
+      throw Exception('Failed to get user details');
+    }
     debugPrint(
         '\nLOG --- getUserDetails response: ${responseBody.values.first}\n');
 

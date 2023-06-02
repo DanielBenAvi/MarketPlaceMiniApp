@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:marketplace/api/command_api.dart';
+import 'package:marketplace/api/user_api.dart';
 import 'package:marketplace/boundaries/object_boundary.dart';
+import 'package:marketplace/screens/screen_view_product.dart';
 
 class ScreenMyProducts extends StatefulWidget {
   const ScreenMyProducts({Key? key}) : super(key: key);
@@ -12,11 +15,32 @@ class _ScreenMyProductsState extends State<ScreenMyProducts> {
   final List<ObjectBoundary> products = [];
 
   @override
+  void initState() {
+    super.initState();
+    _updateRole();
+    _getProducts();
+  }
+
+  Future _updateRole() async {
+    await UserApi().updateRole('MINIAPP_USER');
+  }
+
+
+
+  Future _getProducts() async {
+    await CommandApi().getMyProducts().then((value) {
+      setState(() {
+        products.clear();
+        products.addAll(value);
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Products'),
-        // automaticallyImplyLeading: false,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -41,8 +65,11 @@ class _ScreenMyProductsState extends State<ScreenMyProducts> {
                             subtitle: Text(
                                 products[index].objectDetails['description']),
                             trailing: Text(
-                                '${products[index].objectDetails['price']}'
-                                '${products[index].objectDetails['currency']}'),
+                                '${products[index].objectDetails['price']}\$'),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ScreenProductDetails(objectBoundary: products[index])));
+                      },
                           ),
                         );
                       },

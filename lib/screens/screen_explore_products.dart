@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:marketplace/api/command_api.dart';
+import 'package:marketplace/api/user_api.dart';
 import 'package:marketplace/boundaries/object_boundary.dart';
+import 'package:marketplace/screens/screen_view_product.dart';
 
 class ScreenExploreProducts extends StatefulWidget {
   const ScreenExploreProducts({Key? key}) : super(key: key);
@@ -11,12 +14,41 @@ class ScreenExploreProducts extends StatefulWidget {
 class _ScreenExploreProductsState extends State<ScreenExploreProducts> {
   final List<ObjectBoundary> products = [];
 
+
+  @override
+  void initState() {
+    super.initState();
+    _updateRole();
+    _getProducts();
+  }
+  Future _updateRole() async {
+    await UserApi().updateRole('MINIAPP_USER');
+  }
+
+
+
+  Future _getProducts() async {
+    await CommandApi().getProductsByPrefrences().then((value) {
+      setState(() {
+        products.clear();
+        products.addAll(value);
+      });
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Explore Products'),
-        // automaticallyImplyLeading: false,
+        // refresh button
+        actions: [
+          IconButton(
+            onPressed: _getProducts,
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       drawer: const AppDrawer(),
       body: SingleChildScrollView(
@@ -36,8 +68,11 @@ class _ScreenExploreProductsState extends State<ScreenExploreProducts> {
                             subtitle: Text(
                                 products[index].objectDetails['description']),
                             trailing: Text(
-                                '${products[index].objectDetails['price']}'
-                                '${products[index].objectDetails['currency']}'),
+                                '${products[index].objectDetails['price']}\$'),
+                            onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ScreenProductDetails(objectBoundary: products[index])));
+                            },
                           ),
                         );
                       },
@@ -88,6 +123,12 @@ class AppDrawer extends StatelessWidget {
             title: const Text('My Profile'),
             onTap: () {
               Navigator.pushNamed(context, '/my_profile');
+            },
+          ),
+          ListTile(
+            title: const Text('Search Products'),
+            onTap: () {
+              Navigator.pushNamed(context, '/search_products');
             },
           ),
           ListTile(

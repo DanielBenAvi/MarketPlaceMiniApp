@@ -92,9 +92,6 @@ class _ScreenLoginState extends State<ScreenLogin> {
     }
 
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logging in...')),
-      );
       await UserApi().getUser(_textFieldEmailController.text);
     } catch (e) {
       throw Exception('User does not exist');

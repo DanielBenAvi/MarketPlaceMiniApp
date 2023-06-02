@@ -45,10 +45,13 @@ class _ScreenProfileState extends State<ScreenProfile> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ImageNetwork(
-                image: singletonUser.avatar.toString(),
-                height: 300,
-                width: 300,
+              SizedBox(
+                child: Image.network(
+                  singletonUser.avatar ?? 'https://picsum.photos/300/300',
+                  width: 300,
+                  height: 300,
+                  fit: BoxFit.fill,
+                ),
               ),
               const SizedBox(height: 20),
               Text('Email: ${singletonUser.email}',

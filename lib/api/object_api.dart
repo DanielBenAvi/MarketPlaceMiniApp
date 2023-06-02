@@ -93,4 +93,25 @@ class ObjectApi extends BaseApi {
       client.close();
     }
   }
+
+
+  Future productSold(String internalObjectId) async{
+    Map<String, dynamic> updatedProduct = {
+      "active": false,
+    };
+
+    try {
+      http.put(
+        Uri.parse(
+              'http://$host:$portNumber/superapp/objects/$superApp/$internalObjectId?userSuperapp=$superApp&userEmail=${singletonUser.email}'),
+          headers: <String, String>{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: jsonEncode(updatedProduct),
+      );
+    } catch (e) {
+      throw Exception('[LOG] --- faild to make product unactive: $e');
+    }
+  }
 }

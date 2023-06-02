@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
-import 'package:currency_picker/currency_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:marketplace/api/object_api.dart';
@@ -23,7 +22,6 @@ class ScreenAddProduct extends StatefulWidget {
 
 class _ScreenAddProductState extends State<ScreenAddProduct> {
   final _formKey = GlobalKey<FormState>();
-  String currencyCode = 'ISL';
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
   String? downloadURL;
@@ -35,7 +33,6 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     updateRole();
   }
@@ -118,12 +115,8 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                buildCurrencyPicker(context),
-                const SizedBox(height: 20),
-                // todo: add image picker
                 OutlinedButton(
                     onPressed: _filePiker, child: const Text('Add Image')),
-                // todo: add preference picker
                 const SizedBox(height: 20),
                 MultiSelect(
                   "Preferences",
@@ -158,39 +151,6 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
     );
   }
 
-  Widget buildCurrencyPicker(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 250,
-          child: OutlinedButton(
-            onPressed: () {
-              showCurrencyPicker(
-                context: context,
-                showFlag: true,
-                showCurrencyCode: true,
-                showCurrencyName: true,
-                onSelect: (Currency currency) {
-                  debugPrint('Select currency: ${currency.code}');
-                  _changeCurrency(currency.code);
-                },
-                currencyFilter: <String>['EUR', 'USD', 'ILS'],
-              );
-            },
-            child: const Text('Select Currency'),
-          ),
-        ),
-        SizedBox(width: 50, child: Center(child: Text(currencyCode))),
-      ],
-    );
-  }
-
-  void _changeCurrency(String currencyCode) {
-    setState(() {
-      this.currencyCode = currencyCode;
-    });
-  }
 
   Future _filePiker() async {
     final result = await FilePicker.platform.pickFiles(
@@ -220,7 +180,7 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
     Map<String, dynamic> object = {
       "objectId": {},
       "type": "PRODUCT",
-      "alias": "product",
+      "alias": "PRODUCT",
       "active": true,
       "location": {"lat": 10.200, "lng": 10.200},
       "createdBy": {
@@ -233,9 +193,7 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
         "name": _nameController.text,
         "description": _descriptionController.text,
         "price": double.parse(_priceController.text),
-        "currency": currencyCode,
         "image": downloadURL,
-        "status": "AVAILABLE",
         "preferences": _selectedPreferences.map((e) => e.name).toList(),
       }
     };

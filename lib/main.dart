@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:marketplace/screens/screen_search_product.dart';
 import 'firebase_options.dart';
 
 import 'package:marketplace/screens/screen_add_product.dart';
@@ -20,7 +21,7 @@ void main() async {
 
   runApp(
     MaterialApp(
-      title: 'Social Hive',
+      title: 'Marketplace',
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       theme: ThemeData(
@@ -40,6 +41,7 @@ void main() async {
         '/my_products': (context) => const ScreenMyProducts(),
         '/my_profile': (context) => const ScreenProfile(),
         '/add_product': (context) => const ScreenAddProduct(),
+        '/search_products': (context) => const ScreenSearchProducts(),
       },
     ),
   );

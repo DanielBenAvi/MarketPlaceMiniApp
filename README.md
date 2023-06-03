@@ -1,7 +1,22 @@
 # Marketplace
 
-## How TO Install Client and Server
+## About
+A Miniapp in A collection in Superapp.
+The Marketplace Mini App is an online shop platform for publishing items to sell between the app users.
+The platform includes publishing items for sale, managing published items, displaying items and the ability to contact the seller when the user intends to purchase an item.
+Each user can publish an item for sale and manage them. The displayed items are based on user interests. 
 
+## Technologies
+1. Flutter - client
+2. Spring boot - server
+3. MongoDB - database
+4. FireBase - store images
+
+## Client contributers
+1. Daniel Ben-Avi
+2. Ido Ben Yaakov
+
+## How to install in Linux afeka machine
 ### Mongo
 
 1. In command line
@@ -18,7 +33,7 @@
 	- Find project folder.
 	- Click finish
 	- Right click on the project -> configure -> add gradle nature and wait until finish downloading
-	 - Right click on project/src/main/java/aplication.java -> Run As -> java application
+	- Right click on project/src/main/java/aplication.java -> Run As -> java application
 
 ### Client
 

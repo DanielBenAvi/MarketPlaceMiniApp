@@ -39,7 +39,6 @@ class _ScreenSearchProductsState extends State<ScreenSearchProducts> {
             optionSearch(),
             const SizedBox(height: 30),
             listview(),
-
           ],
         )
       ),);
@@ -85,8 +84,8 @@ class _ScreenSearchProductsState extends State<ScreenSearchProducts> {
                             onChanged: (values) {
                               setState(() {
                                 _ageRangeValues = values;
-                              });
-                            }),
+                              },);
+                            },),
                     ),
                           SizedBox(
                             width: 100,
@@ -106,6 +105,7 @@ class _ScreenSearchProductsState extends State<ScreenSearchProducts> {
                 Preferences().getPreferences(),
                 onMultiSelectConfirm: (List<ItemObject> results) {
                   _selectedPreferences = results;
+                  _search('');
                 },
               );
   }

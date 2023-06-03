@@ -88,7 +88,7 @@ class _ScreenRegisterState extends State<ScreenRegister> {
         email: _emailController.text,
         role: 'SUPERAPP_USER',
         username: _usernameController.text,
-        avatar: 'demo_avatar');
+        avatar: downloadURL.toString());
     // call api to register user
     bool? flag = await UserApi().postUser(newUserBoundary.toJson());
     if (flag == null) {
@@ -101,6 +101,7 @@ class _ScreenRegisterState extends State<ScreenRegister> {
       );
       return;
     }
+    
     // if successful, update singleton user
     SingletonUser user = SingletonUser.instance;
     user.email = _emailController.text;

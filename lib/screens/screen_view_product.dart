@@ -80,6 +80,7 @@ class ScreenProductDetails extends StatelessWidget {
   Future _soled(String objectId) async{
     await UserApi().updateRole("SUPERAPP_USER");
     await ObjectApi().productSold(objectId);
+    
   }
 
 }

@@ -53,6 +53,10 @@ class ScreenProductDetails extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
+                  'Contact: ${objectBoundary.objectDetails['contact']}',
+                ),
+                const SizedBox(height: 20),
+                Text(
                   'Categories:\n${objectBoundary.objectDetails['preferences'].toString().substring(1, objectBoundary.objectDetails['preferences'].toString().length - 1).replaceAll('"', '')}',
                   style: const TextStyle(
                     fontSize: 16,

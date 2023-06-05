@@ -163,7 +163,7 @@ class _ScreenAddProductState extends State<ScreenAddProduct> {
       pickedFile = result.files.first;
     });
     Uint8List? uploadFile = result.files.single.bytes;
-    final path = 'files/${pickedFile!.name}';
+    final path = 'files/marketplace/${pickedFile!.name}';
 
     final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putData(uploadFile!);

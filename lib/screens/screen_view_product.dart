@@ -68,7 +68,7 @@ class ScreenProductDetails extends StatelessWidget {
                     _soled(objectId);
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Soled'),
+                  child: const Text('Sold'),
                 ): Container(),
             ],
           ),

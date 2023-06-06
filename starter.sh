@@ -65,259 +65,218 @@ REQUEST_BODY='{
 # Make the POST request
 curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"
 
-# Post user
-USER_URL="http://localhost:8084/superapp/users"
-USER_REQUEST_BODY='{
-    "_id": "2023b.LiorAriely_demo2@gmail.com",
-    "role": "SUPERAPP_USER",
-    "userName": "demo2",
-    "avatar": "https://firebasestorage.googleapis.com/v0/b/social-hive-places.appspot.com/o/files%2F3854991.png?alt=media&token=8dae5aa6-a518-407e-9b9f-879f92134add",
-    "_class": "superapp.data.UserEntity"
-}'
-USER_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_REQUEST_BODY" "$USER_URL")
 
-# Post user details
-USER_DETAILS_URL="http://localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=demo2@gmail.com"
-USER_DETAILS_REQUEST_BODY='{
+
+URL="localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=daniel@gmail.com"
+REQUEST_BODY='{
     "objectId": {},
-    "type": "USER_DETAILS",
-    "alias": "userDetails",
+    "type": "PRODUCT",
+    "alias": "PRODUCT",
     "active": true,
     "location": {
-        "x": 10,
-        "y": 11
+        "lat": 10.200,
+        "lng": 10.200
     },
-    "createdBy": "2023b.LiorAriely_demo2@gmail.com",
+    "createdBy": {
+        "userId": {
+            "superapp": "2023b.LiorAriely",
+            "email": "daniel@gmail.com"
+        }
+    },
     "objectDetails": {
-        "name": "demo2",
-        "phoneNum": "123123213",
+        "name": "Camera",
+        "image": "https://www.fujifilm.co.il/wp-content/uploads/2019/02/XT30.jpg",
+        "description": "Fujifilm xt30",
+        "contact":"+972543298411",
+        "price": 699.99,
         "preferences": [
-            "Acroyoga",
+            "Photography"
+        ]
+    }
+    }'
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"
+
+ 
+URL="localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=daniel@gmail.com"
+REQUEST_BODY='{
+    "objectId": {},
+    "type": "PRODUCT",
+    "alias": "PRODUCT",
+    "active": true,
+    "location": {
+        "lat": 10.200,
+        "lng": 10.200
+    },
+    "createdBy": {
+        "userId": {
+            "superapp": "2023b.LiorAriely",
+            "email": "daniel@gmail.com"
+        }
+    },
+    "objectDetails": {
+        "name": "Anime book",
+        "image": "https://upload.wikimedia.org/wikipedia/en/a/a3/One_Piece%2C_Volume_1.jpg",
+        "description": "One Piece chapter 1",
+        "contact":"+972543298411",
+        "price": 99.99,
+        "preferences": [
+            "Anime"
+        ]
+    }
+    
+}'
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"
+
+URL="localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=daniel@gmail.com"
+REQUEST_BODY='    "objectId": {},
+    "type": "PRODUCT",
+    "alias": "PRODUCT",
+    "active": true,
+    "location": {
+        "lat": 10.200,
+        "lng": 10.200
+    },
+    "createdBy": {
+        "userId": {
+            "superapp": "2023b.LiorAriely",
+            "email": "daniel@gmail.com"
+        }
+    },
+    "objectDetails": {
+        "name": "Hiking boots",
+        "image": "https://www.switchbacktravel.com/sites/default/files/articles%20/Hiking%20Boots%20%28Lowa%20Renegade%20GTX%20on%20rock%29%20%28m%29.jpg",
+        "description": "New Hiking boots",
+        "contact":"+972543298411",
+        "price": 1999.49,
+        "preferences": [
+            "Anime"
+        ]
+    }
+}'
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"
+
+URL="localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=daniel@gmail.com"
+REQUEST_BODY='{
+    "objectId": {},
+    "type": "EVENT",
+    "alias": "EVENT",
+    "active": true,
+    "location": {
+        "lat": 10.200,
+        "lng": 10.200
+    },
+    "createdBy": {
+        "userId": {
+            "superapp": "2023b.LiorAriely",
+            "email": "daniel@gmail.com"
+        }
+    },
+    "objectDetails": {
+        "name": "Tennis tournament",
+        "date" : 1688101200000,
+        "location":"Tennis court reut",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv7AmZgql_nTl_LSMaJ4pk8U4uGqZQomwW4ga3O1FcFN-av92YYIXWacg8oe075DcymAs&usqp=CAU",
+        "description": "A Tennis tournament in reut Tennis court. \nWinning prize of 1000$",
+        "contact":"+972543298411",
+        "preferences": [
+            "Tennis"
+        ],
+        "attendees":["daniel@gmail.com"]
+    }
+}'
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"
+
+
+URL="localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=daniel@gmail.com"
+REQUEST_BODY='{
+    "objectId": {},
+    "type": "EVENT",
+    "alias": "EVENT",
+    "active": true,
+    "location": {
+        "lat": 10.200,
+        "lng": 10.200
+    },
+    "createdBy": {
+        "userId": {
+            "superapp": "2023b.LiorAriely",
+            "email": "daniel@gmail.com"
+        }
+    },
+    "objectDetails": {
+        "name": "Anime watching",
+        "date" : 1690707600000,
+        "location":"Tel-Aviv University",
+        "image": "https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg",
+        "description": "An Anime watching event",
+        "contact":"+972543298411",
+        "preferences": [
+            "Anime"
+        ],
+        "attendees":[]
+    }
+}'
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"
+
+URL="localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=daniel@gmail.com"
+REQUEST_BODY='{
+    "objectId": {},
+    "type": "EVENT",
+    "alias": "EVENT",
+    "active": true,
+    "location": {
+        "lat": 10.200,
+        "lng": 10.200
+    },
+    "createdBy": {
+        "userId": {
+            "superapp": "2023b.LiorAriely",
+            "email": "daniel@gmail.com"
+        }
+    },
+    "objectDetails": {
+        "name": "Anime lesson",
+        "date" : 1688115600000,
+        "location":"Tel-Aviv University",
+        "image": "https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg",
+        "description": "An Anime watching event",
+        "contact":"+972543298411",
+        "preferences": [
+            "Anime", "Art"
+        ],
+        "attendees":["daniel@gmail.com"]
+    }
+}'
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"
+
+URL="localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=daniel@gmail.com"
+REQUEST_BODY='{
+    "objectId": {},
+    "type": "EVENT",
+    "alias": "EVENT",
+    "active": true,
+    "location": {
+        "lat": 10.200,
+        "lng": 10.200
+    },
+    "createdBy": {
+        "userId": {
+            "superapp": "2023b.LiorAriely",
+            "email": "daniel@gmail.com"
+        }
+    },
+    "objectDetails": {
+        "name": "Acting class",
+        "date" : 1672592400000,
+        "location":"Tel-Aviv University",
+        "image": "https://www.usnews.com/dims4/USNEWS/0e1873c/2147483647/crop/1998x1333+0+0/resize/970x647/quality/85/?url=https%3A%2F%2Fwww.usnews.com%2Fcmsmedia%2Fe2%2F7f%2Fb9f8dce24147b0b536fe7b91df60%2F200928-actingschool-stock.jpg",
+        "description": "An Anime watching event",
+        "contact":"+972543298411",
+        "preferences": [
             "Acting"
-        ]
-    }
-}'
-USER_DETAILS_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_DETAILS_REQUEST_BODY" "$USER_DETAILS_URL")
-
-# Extract user details object ID
-USER_DETAILS_OBJECT_ID=$(echo "$USER_DETAILS_RESPONSE" | jq -r '._id')
-
-# Post private dating profile
-PRIVATE_PROFILE_URL="http://localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=demo2@gmail.com"
-PRIVATE_PROFILE_REQUEST_BODY='{
-    "objectId": {},
-    "type": "PRIVATE_DATING_PROFILE",
-    "alias": "privateDatingProfile",
-    "active": true,
-    "location": {
-        "x": 10,
-        "y": 10
-    },
-    "createdBy": "2023b.LiorAriely_demo2@gmail.com",
-    "objectDetails": {
-        "publicProfile": {
-            "nickName": "demo2",
-            "gender": "FEMALE",
-            "age": 23,
-            "bio": "demo2 bio",
-            "pictures": [
-                "https://firebasestorage.googleapis.com/v0/b/social-hive-places.appspot.com/o/files%2F3854991.png?alt=media&token=8dae5aa6-a518-407e-9b9f-879f92134add"
-            ]
-        },
-        "dateOfBirthday": "1999-06-16T00:00:00.000",
-        "phoneNumber": "123123213",
-        "distanceRange": 100,
-        "maxAge": 48,
-        "minAge": 18,
-        "genderPreferences": [
-            "MALE",
-            "FEMALE"
         ],
-        "matches": [],
-        "likes": []
+        "attendees":["daniel@gmail.com"]
     }
-}'
-
-# Make the POST request to create the private dating profile
-PRIVATE_PROFILE_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$PRIVATE_PROFILE_REQUEST_BODY" "$PRIVATE_PROFILE_URL")
-PRIVATE_PROFILE_OBJECT_ID=$(echo "$PRIVATE_PROFILE_RESPONSE" | jq -r '._id')
-
-# Update the user details with the private dating profile child
-USER_DETAILS_CHILD_URL="http://localhost:8084/superapp/objects/$USER_DETAILS_OBJECT_ID/children"
-USER_DETAILS_CHILD_REQUEST_BODY='{
-    "$ref": "OBJECTS",
-    "$id": "'"$PRIVATE_PROFILE_OBJECT_ID"'"
-}'
-
-# Make the PUT request to add the private dating profile as a child of the user details
-curl -X PUT -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_DETAILS_CHILD_REQUEST_BODY" "$USER_DETAILS_CHILD_URL"
-
-# Post user 1
-USER_URL="http://localhost:8084/superapp/users"
-USER_REQUEST_BODY='{
-    "_id": "2023b.LiorAriely_demo2@gmail.com",
-    "role": "SUPERAPP_USER",
-    "userName": "demo2",
-    "avatar": "https://www.shutterstock.com/image-vector/avatar-redhaired-woman-portrait-young-600w-2078932504.jpg"
-}'
-USER_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_REQUEST_BODY" "$USER_URL")
-
-# Post user details 1
-USER_DETAILS_URL="http://localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=demo2@gmail.com"
-USER_DETAILS_REQUEST_BODY='{
-    "objectId": {},
-    "type": "USER_DETAILS",
-    "alias": "userDetails",
-    "active": true,
-    "location": {
-        "x": 10,
-        "y": 11
-    },
-    "createdBy": "2023b.LiorAriely_demo2@gmail.com",
-    "objectDetails": {
-        "name": "demo2",
-        "phoneNum": "123123213",
-        "preferences": [
-            "Acroyoga",
-            "Acting"
-        ]
-    }
-}'
-USER_DETAILS_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_DETAILS_REQUEST_BODY" "$USER_DETAILS_URL")
-
-# Extract user details 1 object ID
-USER_DETAILS_OBJECT_ID=$(echo "$USER_DETAILS_RESPONSE" | jq -r '._id')
-
-# Post private dating profile 1
-PRIVATE_PROFILE_URL="http://localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=demo2@gmail.com"
-PRIVATE_PROFILE_REQUEST_BODY='{
-    "objectId": {},
-    "type": "PRIVATE_DATING_PROFILE",
-    "alias": "privateDatingProfile",
-    "active": true,
-    "location": {
-        "x": 10,
-        "y": 10
-    },
-    "createdBy": "2023b.LiorAriely_demo2@gmail.com",
-    "objectDetails": {
-        "publicProfile": {
-            "nickName": "demo2",
-            "gender": "FEMALE",
-            "age": 23,
-            "bio": "demo2 bio",
-            "pictures": [
-                "https://www.shutterstock.com/image-vector/avatar-redhaired-woman-portrait-young-600w-2078932504.jpg"
-            ]
-        },
-        "dateOfBirthday": "1999-06-16T00:00:00.000",
-        "phoneNumber": "123123213",
-        "distanceRange": 100,
-        "maxAge": 48,
-        "minAge": 18,
-        "genderPreferences": [
-            "MALE",
-            "FEMALE"
-        ],
-        "matches": [],
-        "likes": []
-    }
-}'
-
-# Make the POST request to create private dating profile 1
-PRIVATE_PROFILE_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$PRIVATE_PROFILE_REQUEST_BODY" "$PRIVATE_PROFILE_URL")
-PRIVATE_PROFILE_OBJECT_ID=$(echo "$PRIVATE_PROFILE_RESPONSE" | jq -r '._id')
-
-# Update user details 1 with the private dating profile 1 child
-USER_DETAILS_CHILD_URL="http://localhost:8084/superapp/objects/$USER_DETAILS_OBJECT_ID/children"
-USER_DETAILS_CHILD_REQUEST_BODY='{
-    "$ref": "OBJECTS",
-    "$id": "'"$PRIVATE_PROFILE_OBJECT_ID"'"
-}'
-
-# Make the PUT request to add private dating profile 1 as a child of user details 1
-curl -X PUT -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_DETAILS_CHILD_REQUEST_BODY" "$USER_DETAILS_CHILD_URL"
-
-# Post user 2
-USER_REQUEST_BODY='{
-    "_id": "2023b.LiorAriely_demo3@gmail.com",
-    "role": "SUPERAPP_USER",
-    "userName": "demo3",
-    "avatar": "https://st4.depositphotos.com/29453910/37778/v/1600/depositphotos_377785328-stock-illustration-hand-drawn-modern-woman-avatar.jpg"
-}'
-USER_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_REQUEST_BODY" "$USER_URL")
-
-# Post user details 2
-USER_DETAILS_URL="http://localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=demo3@gmail.com"
-USER_DETAILS_REQUEST_BODY='{
-    "objectId": {},
-    "type": "USER_DETAILS",
-    "alias": "userDetails",
-    "active": true,
-    "location": {
-        "x": 10,
-        "y": 11
-    },
-    "createdBy": "2023b.LiorAriely_demo3@gmail.com",
-    "objectDetails": {
-        "name": "demo3",
-        "phoneNum": "987654321",
-        "preferences": [
-            "Yoga",
-            "Cooking"
-        ]
-    }
-}'
-USER_DETAILS_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_DETAILS_REQUEST_BODY" "$USER_DETAILS_URL")
-
-# Extract user details 2 object ID
-USER_DETAILS_OBJECT_ID=$(echo "$USER_DETAILS_RESPONSE" | jq -r '._id')
-
-# Post private dating profile 2
-PRIVATE_PROFILE_URL="http://localhost:8084/superapp/objects?userSuperapp=2023b.LiorAriely&userEmail=demo3@gmail.com"
-PRIVATE_PROFILE_REQUEST_BODY='{
-    "objectId": {},
-    "type": "PRIVATE_DATING_PROFILE",
-    "alias": "privateDatingProfile",
-    "active": true,
-    "location": {
-        "x": 10,
-        "y": 10
-    },
-    "createdBy": "2023b.LiorAriely_demo3@gmail.com",
-    "objectDetails": {
-        "publicProfile": {
-            "nickName": "demo3",
-            "gender": "MALE",
-            "age": 25,
-            "bio": "demo3 bio",
-            "pictures": [
-                "https://st4.depositphotos.com/29453910/37778/v/1600/depositphotos_377785328-stock-illustration-hand-drawn-modern-woman-avatar.jpg"
-            ]
-        },
-        "dateOfBirthday": "1997-05-21T00:00:00.000",
-        "phoneNumber": "987654321",
-        "distanceRange": 80,
-        "maxAge": 40,
-        "minAge": 20,
-        "genderPreferences": [
-            "FEMALE"
-        ],
-        "matches": [],
-        "likes": []
-    }
-}'
-
-# Make the POST request to create private dating profile 2
-PRIVATE_PROFILE_RESPONSE=$(curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$PRIVATE_PROFILE_REQUEST_BODY" "$PRIVATE_PROFILE_URL")
-PRIVATE_PROFILE_OBJECT_ID=$(echo "$PRIVATE_PROFILE_RESPONSE" | jq -r '._id')
-
-# Update user details 2 with the private dating profile 2 child
-USER_DETAILS_CHILD_URL="http://localhost:8084/superapp/objects/$USER_DETAILS_OBJECT_ID/children"
-USER_DETAILS_CHILD_REQUEST_BODY='{
-    "$ref": "OBJECTS",
-    "$id": "'"$PRIVATE_PROFILE_OBJECT_ID"'"
-}'
-
-# Make the PUT request to add private dating profile 2 as a child of user details 2
-curl -X PUT -H "Content-Type: application/json" -H "Accept: application/json" -d "$USER_DETAILS_CHILD_REQUEST_BODY" "$USER_DETAILS_CHILD_URL"
+}
+'
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d "$REQUEST_BODY" "$URL"

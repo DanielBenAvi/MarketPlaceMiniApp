@@ -23,6 +23,7 @@ Each user can publish an item for sale and manage them. The displayed items are 
 
 	``` bash
 	docker run --name my-mongo-container -p27017:27017 -d mongo:latest
+	docker exec -it my-mongo-container mongosh
 	```
 
 ### Server
